@@ -23,19 +23,10 @@ const styles = {
   buttonGroup: {
     margin: '25px 0',
     display: 'flex',
+    alignItems: 'center'
   },
   saveButton: {
-    outline: 'none',
-    border: 'none',
-    borderRadius: 4,
-    backgroundColor: '#ffcb9a',
-    height: 38,
-    width: 150,
-    fontSize: 12,
-    fontWeight: 700,
-    fontFamily: 'Spartan',
     cursor: 'pointer',
-    marginRight: 25
   },
   submitButton: {
     outline: 'none',
@@ -48,7 +39,6 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'Spartan',
     cursor: 'pointer',
-    marginRight: 25
   }
 }
 
@@ -79,10 +69,10 @@ const SetPoem = props => {
   return (
     <>
       <div className={classes.buttonGroup}>
-        <button className={classes.saveButton}>Save draft</button>
         <button className={classes.submitButton} onClick={onSubmit}>Create POEM!</button>
+        <img className={classes.saveButton} src="disk.png" height="45" alt="save button" />
+        <div>{getTxStatus()}</div>
       </div>
-      <div>{getTxStatus()}</div>
       <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} />
     </>
   )

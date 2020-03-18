@@ -17,16 +17,20 @@ import Account from "./components/Account"
 import SetPoem from "./components/SetPoem"
 import About from "./components/About"
 
-
 let web3
 
 const styles = {
   app: {
     backgroundColor: '#082628',
+    backgroundImage: 'url(/Dragon-Scales.svg)',
+    backgroundAttachment: 'fixed',
+    backgroundSize: 'contain',
     fontFamily: 'Spartan',
     minHeight: '100vh',
     padding: 40,
     color: '#86e4cc',
+    display: 'flex',
+    flexDirection: 'column',
   },
   failMessage: {
     fontSize: 24,
