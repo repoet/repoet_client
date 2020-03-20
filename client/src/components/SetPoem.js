@@ -39,6 +39,10 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'Spartan',
     cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
   }
 }
 
@@ -69,7 +73,7 @@ const SetPoem = props => {
   return (
     <>
       <div className={classes.buttonGroup}>
-        <button className={classes.submitButton} onClick={onSubmit}>Create POEM!</button>
+        <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
         <img className={classes.saveButton} src="disk.png" height="45" alt="save button" />
         <div>{getTxStatus()}</div>
       </div>

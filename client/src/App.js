@@ -13,9 +13,11 @@ import { onboardConfig } from './config/onboardConfig'
 import MyStringStore from "./contracts/MyStringStore.json"
 
 import Header from "./components/Header"
+import Home from "./components/Home"
 import Account from "./components/Account"
-import SetPoem from "./components/SetPoem"
-import About from "./components/About"
+import Gallery from "./components/Gallery"
+import Artists from "./components/Artists"
+import CreatePoem from "./components/CreatePoem"
 
 let web3
 
@@ -100,7 +102,7 @@ const App = props => {
           <Route exact path="/">
             <div className={classes.app}>
               <Header />
-              <SetPoem drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} />
+              <Home />
             </div>
           </Route>
           <Route exact path="/account">
@@ -109,10 +111,22 @@ const App = props => {
               <Account drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} />
             </div>
           </Route>
-          <Route exact path="/about">
+          <Route exact path="/gallery">
             <div className={classes.app}>
               <Header />
-              <About />
+              <Gallery />
+            </div>
+          </Route>
+          <Route exact path="/artists">
+            <div className={classes.app}>
+              <Header />
+              <Artists />
+            </div>
+          </Route>
+          <Route exact path="/create">
+            <div className={classes.app}>
+              <Header />
+              <CreatePoem drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState}/>
             </div>
           </Route>
         </Switch>

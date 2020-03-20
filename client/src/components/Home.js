@@ -18,7 +18,7 @@ const styles = {
   },
 }
 
-const About = props => {
+const Home = props => {
   const { classes } = props
 
   return (
@@ -35,4 +35,4 @@ const About = props => {
   )
 }
 
-export default withStyles(styles)(About)
+export default withStyles(styles)(Home)

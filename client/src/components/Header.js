@@ -38,7 +38,11 @@ const styles = {
     fontWeight: 700,
     fontFamily: 'Spartan',
     cursor: 'pointer',
-    marginRight: 25
+    marginRight: 25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
   },
   menuGroup: {
     display: 'flex',
@@ -57,11 +61,13 @@ const Header = props => {
     <div className={classes.header}>
       <div><img height="150" src="REPOET.png" alt="repoet logo"/></div>
       <div className={classes.menuGroup}>
-        <button className={classes.donateButton} onClick={openDonation}>Donate</button>
+        <button className={classes.donateButton} onClick={openDonation}><span>Donate</span></button>
         <div className={classes.menu}>
           <Link className={classes.link} to="/">Home</Link>
           <Link className={classes.link} to="/account">Account</Link>
-          <Link className={classes.link} to="/about">About</Link>
+          <Link className={classes.link} to="/gallery">Gallery</Link>
+          <Link className={classes.link} to="/artists">Artists</Link>
+          <Link className={classes.link} to="/create">Create</Link>
           <a className={classes.link} href="https://github.com/atkinsonholly">Code</a>
       </div>
       </div>
