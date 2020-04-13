@@ -17,7 +17,7 @@ import Home from "./components/Home"
 import Account from "./components/Account"
 import Gallery from "./components/Gallery"
 import Artists from "./components/Artists"
-import CreatePoem from "./components/CreatePoem"
+import WriteNew from "./components/CreatePoem"
 import Connect3box from "./components/Connect3box"
 
 let web3
@@ -64,20 +64,22 @@ const App = props => {
   
   // Drizzle state
   const [drizzleReadinessState, setDrizzleReadinessState] = useState({drizzleState: null, loading: true})
-  const [loading, setLoading] = useState(true)
 
   // 3box state
   const [name, setName] = useState()
   const [email, setEmail] = useState()
-  const [customisedProfile, setCustomisedProfile] = useState()
+  const [profileName, set3boxProfileName] = useState()
+  const [storageData, setStorageData] = useState()
   const [threeBoxConnected, setThreeBoxConnected] = useState(false)
+
+  let box
+  let space
   
   const authenticate3box = async() => {
-    const box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
+    box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
     await box.syncDone
-    const space = await box.openSpace('Repoet')
+    space = await box.openSpace('Repoet')
     await space.syncDone
-    setLoading(false)
   }
 
   const getProfile = async() => {
@@ -86,22 +88,42 @@ const App = props => {
   }
 
   const setProfile = async() => {
-    const box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
+    box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
     await box.public.set('name', name)
     await box.private.set('email', email)
   }
 
   const getName = async() => {
-    const box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
+    box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
     const name = await box.public.get('name')
-    setCustomisedProfile(name)
+    if (name !== null && name !== undefined) {
+      set3boxProfileName(name)
+    }
+  }
+
+  const getStorageData = async() => {
+    box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
+    space = await box.openSpace('Repoet')
+    const spaceData = await space.private.all()
+    if (spaceData !== null && spaceData !== undefined){
+      setStorageData(spaceData)
+    }
     setThreeBoxConnected(true)
+  }
+
+  const savePoem = async(key, value) => {
+    console.log(key, value)
+    box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
+    space = await box.openSpace('Repoet')
+    await space.private.set(key, value)
+    getStorageData()
   }
 
   const updateProfile = e => {
     e.preventDefault()
     setProfile()
     getName()
+    getStorageData()
   }
 
   useEffect( 
@@ -151,7 +173,7 @@ const App = props => {
           <Route exact path="/account">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} />
-              <Account drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} />
+              <Account drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} storageData={storageData} />
             </div>
           </Route>
           <Route exact path="/gallery">
@@ -169,13 +191,13 @@ const App = props => {
           <Route exact path="/create">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} />
-              <CreatePoem drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState}/>
+              <WriteNew drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} savePoem={savePoem} />
             </div>
           </Route>
           <Route exact path="/connect3box">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} />
-              <Connect3box threeBoxConnected={threeBoxConnected} authenticate3box={authenticate3box} getProfile={getProfile} getName={getName} setName={setName} setEmail={setEmail} updateProfile={updateProfile} customisedProfile={customisedProfile} />
+              <Connect3box threeBoxConnected={threeBoxConnected} authenticate3box={authenticate3box} getProfile={getProfile} getName={getName} setName={setName} setEmail={setEmail} updateProfile={updateProfile} getStorageData={getStorageData} profileName={profileName} />
             </div>
           </Route>
         </Switch>

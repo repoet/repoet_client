@@ -1,6 +1,6 @@
 import React from 'react'
 import { withStyles } from '@material-ui/core/styles'
-import SetPoem from "./SetPoem"
+import SetPoem from "./WriteNew"
 
 
 const styles = {

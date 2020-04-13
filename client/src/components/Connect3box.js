@@ -10,20 +10,21 @@ const styles = {
 }
 
 const Connect3box = props => {
-  const { classes, threeBoxConnected, setName, setEmail, updateProfile, customisedProfile, authenticate3box, getProfile, getName } = props
+  const { classes, threeBoxConnected, setName, setEmail, updateProfile, profileName, authenticate3box, getProfile, getName, getStorageData } = props
   useEffect( 
     () => {
       authenticate3box()
       getProfile()
       getName()
+      getStorageData()
     }, [])
   
   if (!threeBoxConnected) return (
     <div className={classes.threeBoxContent}>Loading 3box user profile...</div>
   )
-  if (threeBoxConnected && customisedProfile === null) return (
+  if (threeBoxConnected && profileName === null) return (
     <div className={classes.threeBoxContent}>
-      Customise your 3box profile with your name and email address below
+      Customise your 3box profile with your name and email address
       <form>
        <div><label>Name</label><input id="name" type="text" onChange={e => setName(e.target.value)}></input></div>
        <div><label>Email</label><input id="email" type="text" onChange={e => setEmail(e.target.value)}></input></div>
@@ -31,9 +32,9 @@ const Connect3box = props => {
      </form>
     </div>
   )
-  if (threeBoxConnected && customisedProfile) return (
+  if (threeBoxConnected && profileName !== null ) return (
     <div className={classes.threeBoxContent}>
-      Welcome, {customisedProfile}! Your 3box profile is all set up
+      Welcome, {profileName}! Your 3box profile is all set up
     </div>
   )
 

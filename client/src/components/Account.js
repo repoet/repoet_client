@@ -10,13 +10,18 @@ const styles = {
 }
 
 const Account = props => {
-  const { classes, drizzle, drizzleState } = props
+  const { classes, drizzle, drizzleState, storageData } = props
 
   return (
-    <div className={classes.text}>
-      Placeholder for account holder POEMs
-      <ReadPoem drizzle={drizzle} drizzleState={drizzleState} />
-    </div>
+    <>
+      <div className={classes.text}>
+        DRAFTS placeholder
+      </div>
+      <div className={classes.text}>
+        POEMs on the blockchain:
+        <ReadPoem drizzle={drizzle} drizzleState={drizzleState} />
+      </div>
+    </>
   )
 }
 

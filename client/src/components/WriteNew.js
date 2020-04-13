@@ -46,10 +46,10 @@ const styles = {
   }
 }
 
-const SetPoem = props => {
+const WriteNew = props => {
   const [stackId, setStackID] = useState(null)
   const [poem, setPoem] = useState(null)
-  const { classes, drizzle, drizzleState } = props
+  const { classes, drizzle, drizzleState, savePoem } = props
 
   const onSubmit = () => setValue(poem)
 
@@ -70,11 +70,15 @@ const SetPoem = props => {
     return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`
   }
 
+  const saveDraft = (key, value) => {
+    savePoem(key, value)
+  }
+
   return (
     <>
       <div className={classes.buttonGroup}>
         <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
-        <img className={classes.saveButton} src="disk.png" height="45" alt="save button" />
+        <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
         <div>{getTxStatus()}</div>
       </div>
       <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} />
@@ -82,4 +86,4 @@ const SetPoem = props => {
   )
 }
 
-export default withStyles(styles)(SetPoem)
+export default withStyles(styles)(WriteNew)
