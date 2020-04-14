@@ -3,10 +3,10 @@
 
 import React, { useState } from "react"
 import { withStyles } from '@material-ui/core/styles'
+import Grid from '@material-ui/core/Grid'
 
 const styles = {
   inputPoem: {
-    width: '100%',
     boxSizing: 'border-box',
     minWidth: 200,
     minHeight: 300,
@@ -43,13 +43,37 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     padding: 0,
+  },
+  draftHeader : {
+    height: 38,
+    fontSize: 12,
+    fontWeight: 700,
+    fontFamily: 'Spartan',
+    cursor: 'pointer',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+  },
+  drafts: {
+    marginTop: 95, 
+    marginLeft: 25,
+    padding: 25,
+    borderRadius: '6px',
+    border: '3px solid #ffffff',
+  },
+  poemCard: {
+    borderRadius: '6px',
+    fontSize: 12,
+    fontWeight: 500,
+    fontFamily: 'Spartan',
   }
 }
 
 const WriteNew = props => {
   const [stackId, setStackID] = useState(null)
   const [poem, setPoem] = useState(null)
-  const { classes, drizzle, drizzleState, savePoem } = props
+  const { classes, drizzle, drizzleState, savePoem, storageData } = props
 
   const onSubmit = () => setValue(poem)
 
@@ -74,15 +98,28 @@ const WriteNew = props => {
     savePoem(key, value)
   }
 
+  // TODO: return "No drafts stored in 3box" if nothing stored
+  // TODO: get all keys from storageData object and map poems as cards
+  // TODO: make poems editable by moving to main text area (if it's empty, otherwise save current draft)
+  const getPoemCards = () => <div className={classes.poemCard}>{storageData['poem-0']}</div>
+
   return (
-    <>
-      <div className={classes.buttonGroup}>
-        <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
-        <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
-        <div>{getTxStatus()}</div>
-      </div>
-      <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} />
-    </>
+    <Grid container>
+      <Grid item container xs={6} direction="column">
+        <div className={classes.buttonGroup}>
+          <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
+          <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
+          <div>{getTxStatus()}</div>
+        </div>
+        <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} />
+      </Grid>
+      <Grid item container xs={6} direction="column">
+        <div className={classes.drafts}>
+          <div className={classes.draftHeader}><span>Drafts</span></div>
+          {storageData ? getPoemCards() : 'Connect to 3box to see your draft POEMs!'} 
+        </div>
+      </Grid>
+    </Grid>
   )
 }
 

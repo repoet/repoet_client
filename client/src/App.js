@@ -17,7 +17,7 @@ import Home from "./components/Home"
 import Account from "./components/Account"
 import Gallery from "./components/Gallery"
 import Artists from "./components/Artists"
-import WriteNew from "./components/CreatePoem"
+import WriteNew from "./components/WriteNew"
 import Connect3box from "./components/Connect3box"
 
 let web3
@@ -131,6 +131,8 @@ const App = props => {
       const unsubscribe = drizzle.store.subscribe(async() => {
         const drizzleState = drizzle.store.getState()
         if (drizzleState.drizzleStatus.initialized && web3 === undefined) {
+
+          // TODO: make onboarding wallet happen on click, not on page load
           try {
             await onboard.walletSelect()
           } catch (error) {
@@ -191,7 +193,7 @@ const App = props => {
           <Route exact path="/create">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} />
-              <WriteNew drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} savePoem={savePoem} />
+              <WriteNew drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} savePoem={savePoem} storageData={storageData} />
             </div>
           </Route>
           <Route exact path="/connect3box">
