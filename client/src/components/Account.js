@@ -12,6 +12,7 @@ const styles = {
 const Account = props => {
   const { classes, drizzle, drizzleState, storageData } = props
 
+  if (!drizzleState) return <div>Connect wallet to view POEMs!</div>
   return (
     <div className={classes.text}>
       POEMs on the blockchain:

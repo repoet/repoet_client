@@ -22,6 +22,7 @@ import Connect3box from "./components/Connect3box"
 
 let web3
 
+// TODO create styleguide / theme
 const styles = {
   app: {
     backgroundColor: '#082628',
@@ -78,6 +79,7 @@ const App = props => {
   let box
   let space
   
+  // TODO add 3box error handling
   const authenticate3box = async() => {
     box = await Box.openBox(drizzleReadinessState.drizzleState.accounts[0], window.web3.currentProvider)
     await box.syncDone
@@ -165,6 +167,7 @@ const App = props => {
     }, [drizzleReadinessState]
   )
  
+  // TODO create page component
   return (
       <Router>
         <Switch>

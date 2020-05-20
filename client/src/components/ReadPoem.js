@@ -19,9 +19,11 @@ const ReadPoem = props => {
     }, [dataKey, drizzle.contracts.MyStringStore])
 
     const string = MyStringStore.myString[dataKey]
-    
+  
+    // TODO show POEM cards, read all user's poems
+
   return (
-    <p>My latest poem: {string && string.value}</p>
+    <div>My latest poem: <pre>{string && string.value}</pre></div>
   )
 }
 

@@ -34,7 +34,7 @@ const Connect3box = props => {
   )
   if (threeBoxConnected && profileName !== null ) return (
     <div className={classes.threeBoxContent}>
-      Welcome, {profileName}! Your 3box profile is all set up
+      Welcome{profileName ? `, ${profileName}` : null}! Your 3box profile is all set up
     </div>
   )
 

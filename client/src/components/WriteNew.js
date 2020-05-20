@@ -19,12 +19,12 @@ const styles = {
     padding: 10,
     overflow: 'scroll',
     resize: 'none',
-    whiteSpace: 'pre-wrap'
+    whiteSpace: 'pre-wrap',
   },
   buttonGroup: {
     margin: '25px 0',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   saveButton: {
     cursor: 'pointer',
@@ -68,13 +68,15 @@ const styles = {
     fontSize: 12,
     fontWeight: 500,
     fontFamily: 'Spartan',
+    // whiteSpace: 'pre-wrap'
   }
 }
 
 const WriteNew = props => {
 
+  // TODO: whitespace handling
   // TODO: useEffect to update on new storageData
-  // TODO: explain to user what their options are
+  // TODO: explain to user what their options are: 1. Save draft, 2. 'Create POEM' to create POEM token!
 
   const [stackId, setStackID] = useState(null)
   const [poem, setPoem] = useState(null)
@@ -82,7 +84,7 @@ const WriteNew = props => {
 
   const onSubmit = () => setValue(poem)
 
-  const handleKeyDown = e => setPoem(e.target.value)
+  const handleChange = e => setPoem(e.target.value)
 
   const setValue = value => {
     const contract = drizzle.contracts.MyStringStore
@@ -95,7 +97,7 @@ const WriteNew = props => {
   const getTxStatus = () => {
     const { transactions, transactionStack } = drizzleState
     const txHash = transactionStack[stackId]
-    if (!txHash) return null;
+    if (!txHash) return null
     return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`
   }
 
@@ -105,20 +107,21 @@ const WriteNew = props => {
 
   // TODO: return "No drafts stored in 3box" if nothing stored
   // TODO: get all keys from storageData object and map poems as cards
+  // TODO: set up poem structure with Title, Content, Optional Author
   // TODO: make poems editable by moving to main text area (if it's empty, otherwise save current draft)
-  const getPoemCards = () => <div className={classes.poemCard}>{storageData['poem-0']}</div>
+  const getPoemCards = () => <pre className={classes.poemCard}>{storageData['poem-0']}</pre>
 
   return (
     <Grid container>
       <Grid item container xs={6} direction="column">
-        {threeBoxConnected?
+        {threeBoxConnected ?
         <>
           <div className={classes.buttonGroup}>
             <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
-            <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
+            <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', poem)} />
             <div>{getTxStatus()}</div>
           </div>
-          <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} /> 
+          <textarea className={classes.inputPoem} type="text" onChange={e => handleChange(e)} /> 
         </> : <div>"Connect to 3box to begin creating!"</div>}
       </Grid>
       <Grid item container xs={6} direction="column">
