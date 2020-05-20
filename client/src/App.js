@@ -68,6 +68,7 @@ const App = props => {
 
   // Wallet state
   const [walletConnected, setWalletConnected] = useState(false)
+  const [account, setAccount] = useState()
 
   // 3box state
   const [name, setName] = useState()
@@ -142,6 +143,7 @@ const App = props => {
     }
     if (web3 !== undefined) try {
       await onboard.walletCheck()
+      setAccount(drizzleReadinessState.drizzleState.accounts[0])
       setWalletConnected(true)
     } catch (error) {
       alert(
@@ -173,7 +175,7 @@ const App = props => {
         <Switch>
           <Route exact path="/">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} account={account} web3={web3} />
               <Home />
             </div>
           </Route>

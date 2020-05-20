@@ -4,6 +4,9 @@ import { Link, useHistory } from "react-router-dom"
 
 import { threeBoxCloud } from './assets/threeBoxCloud'
 
+const MY_ADDRESS = '0xff904FBaA8f849815616849dE6E9A57C64055105' // Ganache account 2
+
+// TODO hover states
 const styles = {
   header: {
     display: 'flex',
@@ -90,11 +93,27 @@ const styles = {
 }
 
 const Header = props => {
-  const { classes, threeBoxConnected, walletConnected, connectWallet } = props
+  const { classes, threeBoxConnected, walletConnected, connectWallet, account, web3 } = props
   const history = useHistory()
 
+  // Add error handling to UI
   const openDonation = () => {
-    // Pop up window. Function to allow donations to repoet.eth
+    if (!web3 || !account) return
+    web3.eth.sendTransaction(
+      {
+        to: MY_ADDRESS,
+        from: account,
+        value: web3.utils.toWei('0.01', 'ether'),
+      }, 
+      (err, transactionHash) => {
+        if (err) {
+          console.log(`Your transaction could not be processed. ${err.message}`) 
+          return 
+        }
+        console.log('Thanks for your generosity!')
+      }
+    )
+      
   }
 
   const openConnect = () => {
