@@ -107,7 +107,7 @@ const WriteNew = props => {
 
   // TODO: return "No drafts stored in 3box" if nothing stored
   // TODO: get all keys from storageData object and map poems as cards
-  // TODO: set up poem structure with Title, Content, Optional Author
+  // TODO: set up poem structure with Title, Content, Optional Author; decide what is saved on blockchain
   // TODO: make poems editable by moving to main text area (if it's empty, otherwise save current draft)
   const getPoemCards = () => <pre className={classes.poemCard}>{storageData['poem-0']}</pre>
 

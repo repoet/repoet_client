@@ -19,10 +19,13 @@ const Connect3box = props => {
       getStorageData()
     }, [])
   
+  // TODO: add check to see if wallet is connected
   if (!threeBoxConnected) return (
     <div className={classes.threeBoxContent}>Loading 3box user profile...</div>
   )
-  if (threeBoxConnected && profileName === null) return (
+
+  // TODO: Decide whether name & email are useful
+  if (threeBoxConnected && profileName === undefined) return (
     <div className={classes.threeBoxContent}>
       Customise your 3box profile with your name and email address
       <form>
@@ -32,7 +35,8 @@ const Connect3box = props => {
      </form>
     </div>
   )
-  if (threeBoxConnected && profileName !== null ) return (
+
+  if (threeBoxConnected && profileName !== undefined ) return (
     <div className={classes.threeBoxContent}>
       Welcome{profileName ? `, ${profileName}` : null}! Your 3box profile is all set up
     </div>

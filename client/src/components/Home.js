@@ -27,6 +27,7 @@ const Home = props => {
         <div className={classes.title}>Key features:</div>
         <ul >
           <li className={classes.listItem}>Save your poems and turn them into unique, tradable POEM tokens!</li>
+          <li className={classes.listItem}>Not ready to share? Save drafts in 3box.</li>
           <li className={classes.listItem}>Uses an ERC-721 compliant “POEM” token structure.</li>
           <li className={classes.listItem}>Leverages OpenZeppelin token standards such as ERC-20 and EIP-721.</li>
         </ul>
