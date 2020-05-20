@@ -65,6 +65,9 @@ const App = props => {
   // Drizzle state
   const [drizzleReadinessState, setDrizzleReadinessState] = useState({drizzleState: null, loading: true})
 
+  // Wallet state
+  const [walletConnected, setWalletConnected] = useState(false)
+
   // 3box state
   const [name, setName] = useState()
   const [email, setEmail] = useState()
@@ -126,29 +129,31 @@ const App = props => {
     getStorageData()
   }
 
+  const connectWallet = async() => {
+    try {
+      await onboard.walletSelect()
+    } catch (error) {
+      alert(
+        `Failed to load web3, accounts, or contract. Check console for details.`,
+      )
+      console.error(error)
+    }
+    if (web3 !== undefined) try {
+      await onboard.walletCheck()
+      setWalletConnected(true)
+    } catch (error) {
+      alert(
+        `Wallet not connected. Refresh the page to continue.`,
+      )
+      console.error(error)
+    }
+  }
+
   useEffect( 
     () => {
       const unsubscribe = drizzle.store.subscribe(async() => {
         const drizzleState = drizzle.store.getState()
         if (drizzleState.drizzleStatus.initialized && web3 === undefined) {
-
-          // TODO: make onboarding wallet happen on click, not on page load
-          try {
-            await onboard.walletSelect()
-          } catch (error) {
-            alert(
-              `Failed to load web3, accounts, or contract. Check console for details.`,
-            )
-            console.error(error)
-          }
-          if (web3 !== undefined) try {
-            await onboard.walletCheck()
-          } catch (error) {
-            alert(
-              `Wallet not connected. Refresh the page to continue.`,
-            )
-            console.error(error)
-          }
         }
         if (drizzleState.drizzleStatus.initialized){
           setDrizzleReadinessState({drizzleState, loading: false})
@@ -159,46 +164,43 @@ const App = props => {
       }
     }, [drizzleReadinessState]
   )
-  
-  if (drizzleReadinessState.loading || web3 === undefined) {
-    return <div className={classes.app}><div className={classes.failMessage}>Please connect your Wallet to continue</div></div>
-  }
+ 
   return (
       <Router>
         <Switch>
           <Route exact path="/">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Home />
             </div>
           </Route>
           <Route exact path="/account">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Account drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} storageData={storageData} />
             </div>
           </Route>
           <Route exact path="/gallery">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Gallery />
             </div>
           </Route>
           <Route exact path="/artists">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Artists />
             </div>
           </Route>
           <Route exact path="/create">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
-              <WriteNew drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} savePoem={savePoem} storageData={storageData} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet}/>
+              <WriteNew drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} threeBoxConnected={threeBoxConnected} savePoem={savePoem} storageData={storageData} />
             </div>
           </Route>
           <Route exact path="/connect3box">
             <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} />
+              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Connect3box threeBoxConnected={threeBoxConnected} authenticate3box={authenticate3box} getProfile={getProfile} getName={getName} setName={setName} setEmail={setEmail} updateProfile={updateProfile} getStorageData={getStorageData} profileName={profileName} />
             </div>
           </Route>

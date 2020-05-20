@@ -44,6 +44,23 @@ const styles = {
     justifyContent: 'center',
     padding: 0,
   },
+  connectWalletButton: {
+    outline: 'none',
+    border: 'none',
+    borderRadius: 4,
+    backgroundColor: '#ffcb9a',
+    height: 38,
+    width: 150,
+    fontSize: 12,
+    fontWeight: 700,
+    fontFamily: 'Spartan',
+    cursor: 'pointer',
+    marginRight: 25,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 0,
+  },
   connectButton: {
     outline: 'none',
     border: 'none',
@@ -108,11 +125,11 @@ const threeBoxLogo = (
 )
 
 const Header = props => {
-  const { classes, threeBoxConnected } = props
+  const { classes, threeBoxConnected, walletConnected, connectWallet } = props
   const history = useHistory()
 
   const openDonation = () => {
-    // Pop up window. Function to direct funds to my ETH address.
+    // Pop up window. Function to allow donations to repoet.eth
   }
 
   const openConnect = () => {
@@ -120,11 +137,15 @@ const Header = props => {
     history.push('/connect3box')
   }
 
+  // TODO add pending state
+  const threeboxSection = () => threeBoxConnected ? <div className={classes.threeBoxLogo}>{threeBoxLogo}</div> : <button className={classes.connectButton} onClick={openConnect}><span>Connect to 3box</span></button>
+
   return (
     <div className={classes.header}>
       <div><img height="150" src="REPOET.png" alt="repoet logo"/></div>
       <div className={classes.menuGroup}>
-        {threeBoxConnected ? <div className={classes.threeBoxLogo}>{threeBoxLogo}</div> : <button className={classes.connectButton} onClick={openConnect}><span>Connect to 3box</span></button>}
+        {walletConnected ? threeboxSection() : null}
+        <button className={classes.connectWalletButton} onClick={connectWallet}><span>{walletConnected ? "Wallet Connected" : "Connect Wallet"}</span></button>
         <button className={classes.donateButton} onClick={openDonation}><span>Donate</span></button>
         <div className={classes.menu}>
           <Link className={classes.link} to="/">Home</Link>

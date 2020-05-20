@@ -19,6 +19,7 @@ const styles = {
     padding: 10,
     overflow: 'scroll',
     resize: 'none',
+    whiteSpace: 'pre-wrap'
   },
   buttonGroup: {
     margin: '25px 0',
@@ -71,9 +72,13 @@ const styles = {
 }
 
 const WriteNew = props => {
+
+  // TODO: useEffect to update on new storageData
+  // TODO: explain to user what their options are
+
   const [stackId, setStackID] = useState(null)
   const [poem, setPoem] = useState(null)
-  const { classes, drizzle, drizzleState, savePoem, storageData } = props
+  const { classes, drizzle, drizzleState, threeBoxConnected, savePoem, storageData } = props
 
   const onSubmit = () => setValue(poem)
 
@@ -106,12 +111,15 @@ const WriteNew = props => {
   return (
     <Grid container>
       <Grid item container xs={6} direction="column">
-        <div className={classes.buttonGroup}>
-          <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
-          <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
-          <div>{getTxStatus()}</div>
-        </div>
-        <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} />
+        {threeBoxConnected?
+        <>
+          <div className={classes.buttonGroup}>
+            <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
+            <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', JSON.stringify(poem))} />
+            <div>{getTxStatus()}</div>
+          </div>
+          <textarea className={classes.inputPoem} type="text" onKeyDown={e => handleKeyDown(e)} /> 
+        </> : <div>"Connect to 3box to begin creating!"</div>}
       </Grid>
       <Grid item container xs={6} direction="column">
         <div className={classes.drafts}>
