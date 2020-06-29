@@ -9,14 +9,12 @@ import {
 } from "react-router-dom"
 import { withStyles } from '@material-ui/core/styles'
 
-import { onboardConfig } from './config/onboardConfig'
-import MyStringStore from "./contracts/MyStringStore.json"
+import Repoet from "./contracts/Repoet.json"
 
 import Header from "./components/Header"
 import Home from "./components/Home"
 import Account from "./components/Account"
 import Gallery from "./components/Gallery"
-import Artists from "./components/Artists"
 import WriteNew from "./components/WriteNew"
 import Connect3box from "./components/Connect3box"
 
@@ -44,8 +42,8 @@ const styles = {
 }
 
 const onboard = Onboard({
-  dappId: onboardConfig.dappId, 
-  networkId: onboardConfig.networkId, 
+  dappId: process.env.REACT_APP_DAPP_ID, 
+  networkId: parseFloat(process.env.REACT_APP_NETWORK_ID), 
   subscriptions: {
     wallet: wallet => {
       web3 = new Web3(wallet.provider)
@@ -54,10 +52,11 @@ const onboard = Onboard({
 })
 
 const options = {
-  contracts: [MyStringStore],
+  contracts: [Repoet],
 }
 
 const drizzle = new Drizzle(options)
+
 
 const App = props => {
   const { classes } = props
@@ -162,6 +161,7 @@ const App = props => {
         if (drizzleState.drizzleStatus.initialized){
           setDrizzleReadinessState({drizzleState, loading: false})
         }
+        console.log(drizzle)
       })
       return () => {
         unsubscribe()
@@ -189,12 +189,6 @@ const App = props => {
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Gallery />
-            </div>
-          </Route>
-          <Route exact path="/artists">
-            <div className={classes.app}>
-              <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
-              <Artists />
             </div>
           </Route>
           <Route exact path="/create">

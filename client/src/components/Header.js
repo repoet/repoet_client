@@ -135,7 +135,6 @@ const Header = props => {
           <Link className={classes.link} to="/">Home</Link>
           <Link className={classes.link} to="/account">Account</Link>
           <Link className={classes.link} to="/gallery">Gallery</Link>
-          <Link className={classes.link} to="/artists">Artists</Link>
           <Link className={classes.link} to="/create">Create</Link>
           <a className={classes.link} href="https://github.com/repoet" target="_blank" rel="noopener noreferrer">Code</a>
       </div>

@@ -79,16 +79,20 @@ const WriteNew = props => {
   // TODO: explain to user what their options are: 1. Save draft, 2. 'Create POEM' to create POEM token!
 
   const [stackId, setStackID] = useState(null)
-  const [poem, setPoem] = useState(null)
+  const [poem, setPoem] = useState({title: null, content: null})
   const { classes, drizzle, drizzleState, threeBoxConnected, savePoem, storageData } = props
 
   const onSubmit = () => setValue(poem)
 
-  const handleChange = e => setPoem(e.target.value)
+  const handleChange = (id, e) => {
+    const newPoem = {...poem}
+    newPoem[id] = e.target.value
+    setPoem({ newPoem })
+  }
 
   const setValue = value => {
     const contract = drizzle.contracts.MyStringStore
-    const stackId = contract.methods["set"].cacheSend(value, {
+    const stackId = contract.methods["mint"].cacheSend(value, {
       from: drizzleState.accounts[0]
     })
     setStackID(stackId)
@@ -121,7 +125,8 @@ const WriteNew = props => {
             <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', poem)} />
             <div>{getTxStatus()}</div>
           </div>
-          <textarea className={classes.inputPoem} type="text" onChange={e => handleChange(e)} /> 
+          <input className={classes.inputPoem} type="text" id="title" onChange={(id, e) => handleChange(id, e)} /> 
+          <textarea className={classes.inputPoem} type="text" id="content" onChange={(id, e) => handleChange(id, e)} /> 
         </> : <div>"Connect to 3box to begin creating!"</div>}
       </Grid>
       <Grid item container xs={6} direction="column">
