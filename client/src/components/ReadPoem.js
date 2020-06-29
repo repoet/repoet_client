@@ -6,24 +6,24 @@ import React, { useState, useEffect } from "react"
 const ReadPoem = props => {
   const [dataKey, setDataKey] = useState(null)
   const { drizzle, drizzleState } = props
-  const { MyStringStore } = drizzleState.contracts
+  const { Repoet } = drizzleState.contracts
 
   useEffect( 
     () => {
-      const contract = drizzle.contracts.MyStringStore
+      const contract = drizzle.contracts.Repoet
       if (contract) {
-        const dataKey = contract.methods['myString'].cacheCall()
-        setDataKey(dataKey)
+        // const dataKey = contract.methods['myString'].cacheCall()
+        // setDataKey(dataKey)
       }
       
-    }, [dataKey, drizzle.contracts.MyStringStore])
+    }, [/*dataKey*/, drizzle.contracts.Repoet])
 
-    const string = MyStringStore.myString[dataKey]
+    // const string = Repoet.myString[dataKey]
   
     // TODO show POEM cards, read all user's poems
 
   return (
-    <div>My latest poem: <pre>{string && string.value}</pre></div>
+    <div>My latest POEMs <pre></pre></div>
   )
 }
 
