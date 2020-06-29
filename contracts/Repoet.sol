@@ -30,7 +30,6 @@ contract Repoet is ERC721 {
 
     // Get the owner of a POEM
     // return owner of a given POEM token
-
     function getOwner() external view returns (bool) {
         // TODO
         return true;
@@ -51,17 +50,6 @@ contract Repoet is ERC721 {
 
     // Map all POEM tokens
 
-    // Enable transfer of POEM - onlyOwner
+    // Enable safe transfer of POEM - onlyOwner
 
-    // function ownerOf(uint256 _tokenId) public override view returns (address) {
-    //     return tokenContract.ownerOf(_tokenId);
-    // }
-
-    // function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public override {
-    //     return tokenContract.safeTransferFrom(from, to, tokenId, _data);
-    // }
-
-    // function transferFrom(address from, address to, uint256 tokenId) public override {
-    //     return tokenContract.transferFrom(from, to, tokenId);
-    // }
 }
