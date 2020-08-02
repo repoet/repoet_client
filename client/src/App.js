@@ -169,7 +169,9 @@ const App = props => {
     }, [drizzleReadinessState]
   )
  
-  // TODO create page component
+  // TODO: create page component
+  // TODO: footer
+
   return (
       <Router>
         <Switch>
