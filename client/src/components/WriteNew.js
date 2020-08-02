@@ -6,6 +6,22 @@ import { withStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 
 const styles = {
+  inputPoemHeader: {
+    boxSizing: 'border-box',
+    minWidth: 200,
+    minHeight: 75,
+    height: 75,
+    borderRadius: 6,
+    border: 'none',
+    outline: 'none',
+    fontSize: 16,
+    fontFamily: 'Spartan',
+    padding: 10,
+    overflow: 'scroll',
+    resize: 'none',
+    whiteSpace: 'pre-wrap',
+    marginBottom: 25,
+  },
   inputPoem: {
     boxSizing: 'border-box',
     minWidth: 200,
@@ -59,6 +75,7 @@ const styles = {
   drafts: {
     marginTop: 95, 
     marginLeft: 25,
+    minHeight: 120,
     padding: 25,
     borderRadius: '6px',
     border: '3px solid #ffffff',
@@ -69,7 +86,10 @@ const styles = {
     fontWeight: 500,
     fontFamily: 'Spartan',
     // whiteSpace: 'pre-wrap'
-  }
+  },
+  text: {
+    marginTop: 25,
+  },
 }
 
 const WriteNew = props => {
@@ -79,15 +99,20 @@ const WriteNew = props => {
   // TODO: explain to user what their options are: 1. Save draft, 2. 'Create POEM' to create POEM token!
 
   const [stackId, setStackID] = useState(null)
-  const [poem, setPoem] = useState({title: null, content: null})
+  const [poem, setPoem] = useState({title: null, content: null, author: null})
   const { classes, drizzle, drizzleState, threeBoxConnected, savePoem, storageData } = props
 
   const onSubmit = () => setValue(poem)
 
-  const handleChange = (id, e) => {
-    const newPoem = {...poem}
-    newPoem[id] = e.target.value
-    setPoem({ newPoem })
+  const handleChange = e => {
+    e.preventDefault()
+    // const newPoem = {}
+    // newPoem[e.target.id] = e.target.value
+    // console.log(newPoem)
+    setPoem({ 
+      ...poem,
+      [e.target.id]: e.target.value 
+    })
   }
 
   const setValue = value => {
@@ -99,10 +124,12 @@ const WriteNew = props => {
   }
 
   const getTxStatus = () => {
-    const { transactions, transactionStack } = drizzleState
-    const txHash = transactionStack[stackId]
-    if (!txHash) return null
-    return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`
+    if (drizzleState) {
+      const { transactions, transactionStack } = drizzleState
+      const txHash = transactionStack[stackId]
+      if (!txHash) return null
+      return `Transaction status: ${transactions[txHash] && transactions[txHash].status}`
+    }
   }
 
   const saveDraft = (key, value) => {
@@ -111,28 +138,32 @@ const WriteNew = props => {
 
   // TODO: return "No drafts stored in 3box" if nothing stored
   // TODO: get all keys from storageData object and map poems as cards
-  // TODO: set up poem structure with Title, Content, Optional Author; decide what is saved on blockchain
-  // TODO: make poems editable by moving to main text area (if it's empty, otherwise save current draft)
+  // TODO: save drafts in redux; add button for clearing text areas
+  // TODO: make draft poems editable by toggle move to main text area (if it's empty, otherwise save current draft)
+  // TODO: responsive view
+  // TODO: create button only visible when wallet is connected
+  // TODO: save button only visible when 3box is connected
+
   const getPoemCards = () => <pre className={classes.poemCard}>{storageData['poem-0']}</pre>
 
   return (
     <Grid container>
       <Grid item container xs={6} direction="column">
-        {threeBoxConnected ?
         <>
           <div className={classes.buttonGroup}>
             <button className={classes.submitButton} onClick={onSubmit}><span>Create POEM!</span></button>
             <img className={classes.saveButton} src="disk.png" height="45" alt="save button" onClick={() => saveDraft('poem-0', poem)} />
             <div>{getTxStatus()}</div>
           </div>
-          <input className={classes.inputPoem} type="text" id="title" onChange={(id, e) => handleChange(id, e)} /> 
-          <textarea className={classes.inputPoem} type="text" id="content" onChange={(id, e) => handleChange(id, e)} /> 
-        </> : <div>"Connect to 3box to begin creating!"</div>}
+          <input className={classes.inputPoemHeader} type="text" id="author" placeholder="POEM author" onChange={e => handleChange(e)} /> 
+          <input className={classes.inputPoemHeader} type="text" id="title" placeholder="POEM title" onChange={e => handleChange(e)} /> 
+          <textarea className={classes.inputPoem} type="text" id="content" placeholder="POEM content" onChange={e => handleChange(e)} /> 
+        </> 
       </Grid>
       <Grid item container xs={6} direction="column">
         <div className={classes.drafts}>
           <div className={classes.draftHeader}><span>Drafts</span></div>
-          {storageData ? getPoemCards() : 'Connect to 3box to see your draft POEMs!'} 
+          {storageData ? getPoemCards() : <div className={classes.text}>Connect to 3box to see your draft POEMs!</div>} 
         </div>
       </Grid>
     </Grid>

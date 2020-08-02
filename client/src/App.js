@@ -185,12 +185,12 @@ const App = props => {
               <Account drizzle={drizzle} drizzleState={drizzleReadinessState.drizzleState} storageData={storageData} />
             </div>
           </Route>
-          <Route exact path="/gallery">
+          {/* <Route exact path="/gallery">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet} />
               <Gallery />
             </div>
-          </Route>
+          </Route> */}
           <Route exact path="/create">
             <div className={classes.app}>
               <Header threeBoxConnected={threeBoxConnected} walletConnected={walletConnected} connectWallet={connectWallet}/>
