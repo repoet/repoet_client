@@ -136,6 +136,8 @@ const WriteNew = props => {
     savePoem(key, value)
   }
 
+  // TODO: fix save draft onClick
+  // TODO: fix submit onClick (dependent on Repoet.sol)
   // TODO: return "No drafts stored in 3box" if nothing stored
   // TODO: get all keys from storageData object and map poems as cards
   // TODO: save drafts in redux; add button for clearing text areas
